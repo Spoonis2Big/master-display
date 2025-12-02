@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Display - Admin Panel</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎨 Master Display - Admin Panel</h1>
+      <nav>
+        <button class="nav-btn active" data-view="vignettes">Vignettes</button>
+        <button class="nav-btn" data-view="products">Products</button>
+        <button class="nav-btn" data-view="display-link">View Display</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- VIGNETTES VIEW -->
+      <section id="vignettes-view" class="view-section active">
+        <div class="section-header">
+          <h2>Manage Vignettes</h2>
+          <button class="btn-primary" onclick="showVignetteForm()">+ New Vignette</button>
+        </div>
+
+        <div id="vignettes-list" class="cards-grid">
+          <!-- Vignettes will be loaded here -->
+        </div>
+      </section>
+
+      <!-- PRODUCTS VIEW -->
+      <section id="products-view" class="view-section">
+        <div class="section-header">
+          <h2>Manage Products</h2>
+          <div class="controls">
+            <select id="category-filter" onchange="loadProducts()">
+              <option value="">All Categories</option>
+            </select>
+            <button class="btn-primary" onclick="showProductForm()">+ New Product</button>
+          </div>
+        </div>
+
+        <div id="products-list" class="cards-grid">
+          <!-- Products will be loaded here -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- VIGNETTE MODAL -->
+  <div id="vignette-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="vignette-modal-title">Create New Vignette</h2>
+        <button class="close-btn" onclick="closeVignetteModal()">&times;</button>
+      </div>
+      <form id="vignette-form">
+        <input type="hidden" id="vignette-id">
+
+        <div class="form-group">
+          <label for="vignette-name">Name *</label>
+          <input type="text" id="vignette-name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="vignette-location">Location</label>
+          <input type="text" id="vignette-location" placeholder="e.g., Section A1">
+        </div>
+
+        <div class="form-group">
+          <label for="vignette-theme">Theme</label>
+          <input type="text" id="vignette-theme" placeholder="e.g., Modern, Traditional, Coastal">
+        </div>
+
+        <div class="form-group">
+          <label for="vignette-description">Description</label>
+          <textarea id="vignette-description" rows="4"></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeVignetteModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Vignette</button>
+        </div>
+      </form>
+
+      <!-- Products in Vignette Section (shown when editing) -->
+      <div id="vignette-products-section" style="display: none;">
+        <hr>
+        <h3>Products in this Vignette</h3>
+        <div class="section-header">
+          <button class="btn-secondary" onclick="showAddProductToVignette()">+ Add Product</button>
+        </div>
+        <div id="vignette-products-list" class="products-in-vignette">
+          <!-- Products in vignette will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Upload Vignette Image Section -->
+      <div id="vignette-image-section" style="display: none;">
+        <hr>
+        <h3>Vignette Images</h3>
+        <form id="vignette-image-form" class="upload-form">
+          <input type="file" id="vignette-image-file" accept="image/*">
+          <input type="text" id="vignette-image-caption" placeholder="Image caption (optional)">
+          <button type="submit" class="btn-secondary">Upload Image</button>
+        </form>
+        <div id="vignette-images-list" class="images-grid">
+          <!-- Vignette images will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT MODAL -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="product-modal-title">Create New Product</h2>
+        <button class="close-btn" onclick="closeProductModal()">&times;</button>
+      </div>
+      <form id="product-form">
+        <input type="hidden" id="product-id">
+
+        <div class="form-group">
+          <label for="product-name">Name *</label>
+          <input type="text" id="product-name" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-main-category">Main Category *</label>
+            <select id="product-main-category" required>
+              <option value="">Select Main Category</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="product-subcategory">Subcategory *</label>
+            <select id="product-subcategory" required disabled>
+              <option value="">Select Main Category First</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="product-description">Description</label>
+          <textarea id="product-description" rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-manufacturer">Manufacturer</label>
+            <input type="text" id="product-manufacturer">
+          </div>
+
+          <div class="form-group">
+            <label for="product-model-number">Model Number</label>
+            <input type="text" id="product-model-number">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-sku">SKU</label>
+            <input type="text" id="product-sku">
+          </div>
+
+          <div class="form-group">
+            <label for="product-price">Price ($)</label>
+            <input type="number" id="product-price" step="0.01" min="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-color">Color</label>
+            <input type="text" id="product-color">
+          </div>
+
+          <div class="form-group">
+            <label for="product-material">Material</label>
+            <input type="text" id="product-material">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="product-dimensions">Dimensions</label>
+          <input type="text" id="product-dimensions" placeholder="e.g., 84W x 36D x 36H">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Product</button>
+        </div>
+      </form>
+
+      <!-- Upload Product Image Section -->
+      <div id="product-image-section" style="display: none;">
+        <hr>
+        <h3>Product Images</h3>
+        <form id="product-image-form" class="upload-form">
+          <input type="file" id="product-image-file" accept="image/*">
+          <input type="text" id="product-image-caption" placeholder="Image caption (optional)">
+          <label>
+            <input type="checkbox" id="product-image-primary"> Set as primary image
+          </label>
+          <button type="submit" class="btn-secondary">Upload Image</button>
+        </form>
+        <div id="product-images-list" class="images-grid">
+          <!-- Product images will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD PRODUCT TO VIGNETTE MODAL -->
+  <div id="add-product-modal" class="modal">
+    <div class="modal-content small">
+      <div class="modal-header">
+        <h2>Add Product to Vignette</h2>
+        <button class="close-btn" onclick="closeAddProductModal()">&times;</button>
+      </div>
+      <form id="add-product-form">
+        <div class="form-group">
+          <label for="select-product">Select Product *</label>
+          <select id="select-product" required>
+            <option value="">Choose a product...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="product-position">Position/Order</label>
+          <input type="number" id="product-position" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="product-notes">Notes</label>
+          <textarea id="product-notes" rows="2"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeAddProductModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Add Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin.js?v=3"></script>
+</body>
+</html>

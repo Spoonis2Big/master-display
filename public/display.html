@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Showroom Master Display</title>
+  <link rel="stylesheet" href="css/display.css">
+</head>
+<body>
+  <div class="display-container">
+    <header class="display-header">
+      <h1>🏠 Showroom Vignettes</h1>
+      <div class="controls">
+        <button id="grid-view-btn" class="view-toggle active">Grid View</button>
+        <button id="slideshow-btn" class="view-toggle">Slideshow</button>
+        <button id="fullscreen-btn" class="control-btn">⛶ Fullscreen</button>
+      </div>
+    </header>
+
+    <!-- Grid View -->
+    <main id="grid-view" class="grid-view active">
+      <div id="vignettes-grid" class="vignettes-grid">
+        <!-- Vignettes will be loaded here -->
+      </div>
+    </main>
+
+    <!-- Slideshow View -->
+    <div id="slideshow-view" class="slideshow-view">
+      <div class="slideshow-container">
+        <button class="slide-nav prev" onclick="changeSlide(-1)">&#10094;</button>
+        <div id="slideshow-content" class="slideshow-content">
+          <!-- Slideshow content will be loaded here -->
+        </div>
+        <button class="slide-nav next" onclick="changeSlide(1)">&#10095;</button>
+      </div>
+      <div class="slide-indicators" id="slide-indicators">
+        <!-- Slide indicators will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="detail-modal">
+      <div class="detail-content">
+        <button class="close-detail" onclick="closeDetail()">&times;</button>
+        <div id="detail-body">
+          <!-- Detail content will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/display.js"></script>
+</body>
+</html>
