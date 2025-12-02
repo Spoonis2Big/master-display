@@ -51,6 +51,9 @@ db.serialize(() => {
       { code: '252', name: 'DINING UNIQUE PIECE' },
       { code: '253', name: 'STOOLS' }
     ],
+    '360': [
+      { code: '360', name: 'Occasional tables' }
+    ],
     '420': [
       { code: '420', name: 'LAMPS' },
       { code: '430', name: 'WALL ITEMS' },
